@@ -2,4 +2,6 @@
 *.log
 *.rar
 *.zip
-/bin/
+*.class
+*.csv
+*.xlsx
