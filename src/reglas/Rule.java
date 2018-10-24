@@ -40,6 +40,28 @@ public class Rule {
 			"169.254." // Automatic Private Internet Protocol Addressing
 	};
 
+public static boolean directionGrupable(String a, String b) {
+		
+		boolean res = false;
+
+		String otro = a;
+		String este = b;
+
+		boolean grupo1 = este.endsWith("TOT") && otro.endsWith("TOT"); // X-OT
+		boolean grupo2 = este.endsWith("TWAN") && otro.endsWith("TWAN"); // X-WAN
+		boolean grupo4 = este.startsWith("WAN") && otro.startsWith("WAN"); // WAN-X
+		boolean grupo5 = este.equals(otro); // WAN-X
+
+		// Comprueba si son agrupables
+		if (!grupo1 && !grupo2 && !grupo4 && !grupo5) {
+
+			return false;
+
+		}else {
+			
+			return true;
+		}
+	}
 
 
 	public static boolean isIPV4(LineaLogLight log) {

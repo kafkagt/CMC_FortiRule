@@ -51,15 +51,28 @@ public class ReglasAgrupableFile {
 
 	public boolean isGrupable(ReglasAgrupableFile raf) {
 		
-		if(!raf.getDirection().equals(this.getDirection())) {
+		boolean res = Rule.directionGrupable(this.getDirection(), raf.getDirection());
+
+		if (!res) {
+
 			return false;
+
 		}
+		
 
-		boolean source = sourceVlan.toString().equals(raf.sourceVlan.toString());
 
-		boolean service = services.toString().equals(raf.services.toString());
+		boolean source = sourceVlan.equals(raf.sourceVlan);
 
-		return source && service;
+		boolean service = services.equals(raf.services);
+		
+		//System.out.println(sourceVlan.toString());
+		
+		int a = raf.allServices.size();
+		int b = this.allServices.size();
+		
+		boolean gruposGrupables = (a == 0 && b == 0) || (a > 0 && b > 0);
+
+		return source && service && gruposGrupables;
 
 	}
 

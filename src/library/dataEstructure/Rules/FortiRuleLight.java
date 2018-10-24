@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.RunnableScheduledFuture;
 
 import library.dataEstructure.Data.ServiceLight;
 import library.dataEstructure.Logs.LineaLogLight;
 import library.dataEstructure.Matrix.CeldaLight;
 import library.dataEstructure.Matrix.VlanLight;
+import reglas.Rule;
 
 public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<FortiRuleLight> {
 
@@ -82,13 +84,13 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 		this.name = log.getService();
 
 		if (this.direction == null) {
-			
+
 			this.setDirection(log.getDirection());
-			
+
 		} else {
-			
+
 			this.setDirection(this.setDirectionGrouped(log));
-			
+
 		}
 
 		this.servicios.add(new ServiceLight(name));
@@ -131,7 +133,7 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 		}
 
-		throw new IllegalArgumentException("Mezclado de logs incorrecto: "+ este + " - " + otro);
+		throw new IllegalArgumentException("Mezclado de logs incorrecto: " + este + " - " + otro);
 
 	}
 
@@ -149,9 +151,7 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	public void setDirection(String direction) {
 
-
-			this.direction = direction;
-
+		this.direction = direction;
 
 	}
 
@@ -305,83 +305,43 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	public boolean isGrupable(FortiRuleLight fr) {
 
-		boolean res = false;
+		boolean res = Rule.directionGrupable(fr.getDirection(), this.getDirection());
 
-		String otro = fr.getDirection();
-		String este = this.getDirection();
-
-		boolean grupo1 = este.endsWith("TOT") && otro.endsWith("TOT"); // X-OT
-		boolean grupo2 = este.endsWith("TWAN") && otro.endsWith("TWAN"); // X-WAN
-		boolean grupo4 = este.startsWith("WAN") && otro.startsWith("WAN"); // WAN-X
-		boolean grupo5 = este.equals(otro); // WAN-X
-
-		//Comprueba si son agrupables
-		if (!grupo1 && !grupo2 && !grupo4 && !grupo5) {
+		if (!res) {
 
 			return res;
 
 		}
 
-//		boolean srcDir = fr.getDirection().contains("WAN");
-//		boolean dstDir = this.getDirection().contains("WAN");
-//			
-//		if(!fr.getDirection().equals(this.getDirection())) {
-//			return res;
-//		}
+		// Solo Vlanes source
+		Set<VlanLight> sourcesWOVlan = fr.celdaLocal.getVlanAndGroupsSource();
 
-//		// Si una de las 2, pero no las 2 tienen WAN nunca son agrupables
-//		if (srcDir ^ dstDir) {
-//
-////			System.out.println(fr);
-////			System.out.println(this);
-////			System.out.println("---------------");
-//
-//			return res;
-//
-//		} else {
-//
-//			System.out.println(fr);
-//			System.out.println(this);
-//			System.out.println("---------------");
-//		}
+		// Solo vlanes destination
+		Set<VlanLight> destinysWOVlan = fr.celdaLocal.getVlanAndGroupsDestination();
 
-		//Solo Vlanes source
-		Set<VlanLight> sourcesWOVlan = fr.getCeldaLocal().getVlanAndGroupsSource();
-
-//		if (sourcesWOVlan.size() == 0) {
-//
-//			return res;
-//		}
-		
-		//Solo vlanes destination
-		Set<VlanLight> destinysWOVlan = fr.getCeldaLocal().getVlanAndGroupsDestination();
-//		if (destinysWOVlan.size() == 0) {
-//
-//			return res;
-//		}
-
-		boolean destiny = this.getCeldaLocal().getVlanAndGroupsDestination().equals(destinysWOVlan);
-
-//		if (!destiny)
-//			return res;
+		boolean destiny = this.celdaLocal.getVlanAndGroupsDestination().equals(destinysWOVlan);
 
 		String services = fr.getCeldaLocal().getServices();
+		// System.out.println(destinysWOVlan);
 
-		boolean source = this.getCeldaLocal().getVlanAndGroupsSource().equals(sourcesWOVlan);
+		boolean source = this.celdaLocal.getVlanAndGroupsSource().equals(sourcesWOVlan);
 
 		boolean servicesFull = this.getCeldaLocal().getServices().equals(services);
-		
-		boolean serviciosNoMezclados = this.getAllServices().equals(fr.getAllServices());
 
-		// boolean serSRC = fr.getAllServices().size() == 0;
-		// boolean serDST = this.getAllServices().size() == 0;
+		boolean serviciogrupo = this.getAllServices().size() > 0 && fr.getAllServices().size() > 0;
+		boolean serviciosNoGrupos = this.getAllServices().size() == 0 && fr.getAllServices().size() == 0;
 
-		// Si son servicios especiales solo se agrupan consigo mismo
-		// boolean extra = (serSRC && serDST) || servicesFull;
+		boolean servicioAgrupable = false;
 
-		// res = (source && destiny && extra) || (destiny && servicesFull) || (source &&
-		// servicesFull);
-		res = (source && destiny && serviciosNoMezclados) || (destiny && servicesFull) || (source && servicesFull);
+		// Verifica que el servicio es agrupable
+		if (serviciogrupo && servicesFull || serviciosNoGrupos) {
+
+			servicioAgrupable = true;
+
+		}
+
+		res = (source && destiny && servicioAgrupable) || (destiny && servicesFull) || (source && servicesFull);
+
 		return res;
 
 	}
