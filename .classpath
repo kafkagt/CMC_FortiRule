@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry excluding="input/" kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-ip-math-1.32.jar" sourcepath="C:/Users/pgallego/Downloads/commons-ip-math-1.32-javadoc"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-ip-math-1.32-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/nio.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-csv-1.5/commons-csv-1.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-csv-1.5/commons-csv-1.5-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-examples-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-excelant-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/poi-3.17/poi-scratchpad-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6.jar" sourcepath="C:/Users/pgallego/Downloads/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-net-3.6-bin/commons-net-3.6/commons-net-3.6-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pgallego/Downloads/commons-net-3.6-bin/commons-net-3.6/commons-net-examples-3.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
