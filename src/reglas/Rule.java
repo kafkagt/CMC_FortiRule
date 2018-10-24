@@ -48,7 +48,7 @@ public static boolean directionGrupable(String a, String b) {
 		String este = b;
 
 		boolean grupo1 = este.endsWith("TOT") && otro.endsWith("TOT"); // X-OT
-		boolean grupo2 = este.endsWith("TWAN") && otro.endsWith("TWAN"); // X-WAN
+		boolean grupo2 = este.endsWith("WAN") && otro.endsWith("WAN"); // X-WAN
 		boolean grupo4 = este.startsWith("WAN") && otro.startsWith("WAN"); // WAN-X
 		boolean grupo5 = este.equals(otro); // WAN-X
 
@@ -279,7 +279,7 @@ public static boolean directionGrupable(String a, String b) {
 
 		for (VlanLight v : vSet) {
 
-			if (Rule.isOT(v)) {
+			if (Rule.isOT(v) && Rule.isPlant(v)) {
 
 				limpio.add(v);
 
@@ -299,7 +299,7 @@ public static boolean directionGrupable(String a, String b) {
 
 		for (VlanLight v : vSet) {
 
-			if (Rule.isIT(v)) {
+			if (Rule.isIT(v) && Rule.isPlant(v)) {
 
 				limpio.add(v);
 

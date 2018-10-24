@@ -367,13 +367,15 @@ public class AuditedRulesLight {
 	private String[][] rellenaMatriz(List<VlanLight> sourcesV, List<VlanLight> destinyV, String[][] matrix,
 			Set<VlanLight> sAuditTMPSource, Set<VlanLight> sAuditTMPDestiny, AuditedRuleLight adr) {
 
-		int id = adr.getId();
+		String id = "" + adr.getId();
 		int s;
 		int d;
 		
-		if(id == 86) {
-			System.out.println("Error");
+		if(adr.getAllServices().length() != 0) {
+			
+			id = adr.getServices().get(0);
 		}
+		
 
 		for (VlanLight vs : sAuditTMPSource) {
 
@@ -387,10 +389,12 @@ public class AuditedRulesLight {
 				if (s != -1 && d != -1) {
 
 					String ids = matrix[s + 1][d + 1];
+					
+	
 
 					if (ids == null || "".equals(ids)) {
 
-						matrix[s + 1][d + 1] = "" + id;
+						matrix[s + 1][d + 1] = id;
 						this.lastRules.add(adr);
 
 					} else {

@@ -27,6 +27,7 @@ public class AuditedRuleLight implements Comparator<AuditedRuleLight> {
 	private VlanLight internet;
 	private String[] ruleID;
 	private String direction;
+	private String allServices;
 
 	private Set<VlanLight> ipNoGrupable;
 
@@ -38,13 +39,9 @@ public class AuditedRuleLight implements Comparator<AuditedRuleLight> {
 
 	public AuditedRuleLight(CSVRecord rule, VlansLight onlyVlan, VlansLight onlyGroup) {
 
-		String[] ruleS = new String[7];
+		String[] ruleS = new String[8];
 
 		ruleS[0] = rule.get(0).replaceAll(" ", "");
-		
-		if(ruleS[0].equals("86")) {
-			System.out.print("TEst1");
-		}
 		
 		
 		ruleS[1] = rule.get(1).replaceAll(" ", "");
@@ -53,6 +50,7 @@ public class AuditedRuleLight implements Comparator<AuditedRuleLight> {
 		ruleS[4] = rule.get(4).replaceAll(" ", "");
 		ruleS[5] = rule.get(5).replaceAll(" ", "");
 		ruleS[6] = Rule.limpia(rule.get(6).replaceAll(" ", ""));
+		ruleS[7] = Rule.limpia(rule.get(7));
 		ruleID = ruleS;
 
 		this.inicializa(ruleS, onlyVlan, onlyGroup);
@@ -103,6 +101,7 @@ public class AuditedRuleLight implements Comparator<AuditedRuleLight> {
 		this.sourcesVlan = new HashSet<VlanLight>();
 		this.destinysVlan = new HashSet<VlanLight>();
 		this.direction = rule[6];
+		this.allServices = rule[7];
 
 		// SOURCES
 		String[] sourcesGroupTMP = rule[1].replaceAll("\\[", "").replaceAll("\\]", "").split(",");
@@ -325,5 +324,15 @@ public class AuditedRuleLight implements Comparator<AuditedRuleLight> {
 		return this.ruleID;
 
 	}
+
+	public String getAllServices() {
+		return allServices;
+	}
+
+	public void setAllServices(String allServices) {
+		this.allServices = allServices;
+	}
+	
+	
 
 }
