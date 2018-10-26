@@ -31,6 +31,11 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 			this.setDstIP(row.get(position.getDstIP()));
 			this.setSrcIP(row.get(position.getSrcIP()));
 			this.setService(row.get(position.getService()));
+			
+			if(this.getSrcIP().equals("10.143.6.20")) {
+				int a = 1;
+			}
+			
 
 			if (position.getDirection() != -1) {
 				this.setDirection(row.get(position.getDirection()));
@@ -63,7 +68,6 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 		this.setDstVlan(tablaVlan.getVlanAssigned(this.getDstIP()));
 		this.srcVlanForce = tablaVlan.getVlanLigh(this.getSrcIP());
 		this.dstVlanForce = tablaVlan.getVlanLigh(this.getDstIP());
-
 		this.direction = srcVlanForce.getDirectionPartial() + dstVlanForce.getDirectionPartial();
 
 		// System.out.println(this);

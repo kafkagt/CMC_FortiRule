@@ -52,19 +52,19 @@ public class GestionInformacion {
 
 			return "/24";
 
-		} else if ("255.255.255.0".equals(subnet)) {
+		}  else if ("255.255.254.0".equals(subnet)) {
 
 			return "/23";
 
-		} else if ("255.255.254.0".equals(subnet)) {
+		} else if ("255.255.252.0".equals(subnet)) {
 
 			return "/22";
 
-		} else if ("255.255.252.0".equals(subnet)) {
+		} else if ("255.255.248.0".equals(subnet)) {
 
 			return "/21";
 
-		} else if ("255.255.248.0".equals(subnet)) {
+		} else if ("255.255.240.0".equals(subnet)) {
 
 			return "/20";
 
@@ -80,15 +80,27 @@ public class GestionInformacion {
 
 			return "/17";
 
-		} else if ("255.255.0.0".equals(subnet)) {
+		}else if ("255.255.0.0".equals(subnet)) {
 
 			return "/16";
+
+		} else if ("255.254.0.0".equals(subnet)) {
+
+			return "/15";
+
+		} else if ("255.252.0.0".equals(subnet)) {
+
+			return "/14";
+
+		}else if ("255.248.0.0".equals(subnet)) {
+
+			return "/13";
 
 		}else if ("240.0.0.0".equals(subnet)) {
 
 			return "/4";
 
-		} else {
+		}else {
 
 			throw new IllegalArgumentException();
 		}

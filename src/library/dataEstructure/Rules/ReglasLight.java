@@ -87,7 +87,6 @@ public class ReglasLight implements Iterable<FortiRuleLight> {
 
 		for (LineaLogLight linea : logTMP) {
 
-			
 			if (Rule.registrar(linea))
 				this.addLog(linea);
 			//else
