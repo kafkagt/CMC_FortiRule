@@ -46,9 +46,9 @@ public class LogsLight {
 
 			} 
 			
-			if(cuentaTotal == 1000) {
-				break;
-			}
+//			if(cuentaTotal == 10000) {
+//				break;
+//			}
 
 			cuentaTotal++;
 		}

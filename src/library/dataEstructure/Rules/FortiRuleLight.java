@@ -24,6 +24,7 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 	private String comment;
 	private boolean permit = true;
 	private String direction;
+	public final int MAX_VALUE_GROUP = 3;;
 	static int idCount = 1;
 	private Set<String> allServices;
 
@@ -303,13 +304,13 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	}
 
-	public boolean isGrupable(FortiRuleLight fr) {
+	public int isGrupable(FortiRuleLight fr) {
 
 		boolean res = Rule.directionGrupable(fr.getDirection(), this.getDirection());
 
 		if (!res) {
 
-			return res;
+			return 0;
 
 		}
 
@@ -334,15 +335,25 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 		boolean servicioAgrupable = false;
 
 		// Verifica que el servicio es agrupable
-		if (serviciogrupo && servicesFull || serviciosNoGrupos) {
 
-			servicioAgrupable = true;
+		servicioAgrupable = serviciogrupo && servicesFull || serviciosNoGrupos;
 
+		//Si agrupamos el servicio lo llamamos tipo 1 
+		if(source && destiny && servicioAgrupable) {
+			
+			return 1;
+			
+		//Si el servicio se mantiene lo llamamos tipo 2	
+		}else if ((source && servicesFull)) {
+			
+			return 2;
+			
+		}else if (destiny && servicesFull) {
+			
+			return 3;
 		}
 
-		res = (source && destiny && servicioAgrupable) || (destiny && servicesFull) || (source && servicesFull);
-
-		return res;
+		return 0;
 
 	}
 

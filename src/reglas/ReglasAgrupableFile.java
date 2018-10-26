@@ -67,10 +67,10 @@ public class ReglasAgrupableFile {
 		
 		//System.out.println(sourceVlan.toString());
 		
-		int a = raf.allServices.size();
-		int b = this.allServices.size();
+		boolean a = raf.allServices.size() == 0;
+		boolean b = this.allServices.size() == 0;
 		
-		boolean gruposGrupables = (a == 0 && b == 0) || (a > 0 && b > 0);
+		boolean gruposGrupables = ! a ^ b;
 
 		return source && service && gruposGrupables;
 

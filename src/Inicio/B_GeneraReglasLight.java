@@ -29,7 +29,6 @@ public class B_GeneraReglasLight {
 		String salidaCSVClean = "src/output/" + fichero + "/Reglas/Rules-OBJ-CLEAN_B.csv";
 		String pathFolder = "src/output/" + fichero + "/Reglas/Rules-Clean-SG_A2.csv";
 
-
 		// Apertura del fichero de Vlans
 		FortiReaderCSV vlanFile = new FortiReaderCSV(vlanPath, ';');
 		Iterable<CSVRecord> recordsVlan = vlanFile.getSheet();
@@ -44,14 +43,12 @@ public class B_GeneraReglasLight {
 
 		ReglasLight reglas = new ReglasLight();
 
-
-
 		FortiReaderCSV frc = new FortiReaderCSV(pathFolder, ';');
 		Iterable<CSVRecord> records = frc.getSheet();
 
 		// crea un localizador de columnas
 		PositionLocator pl = new PositionLocator();
-		
+
 		pl.setSrcIP(2);
 		pl.setDstIP(3);
 		pl.setDstPort(5);
@@ -59,36 +56,56 @@ public class B_GeneraReglasLight {
 		pl.setDirection(6);
 		pl.setAllServices(7);
 
-
 		LogsLight logs = new LogsLight(records, pl, vlans);
 
 		reglas.addLogsGrouped(logs);
 
 		// Escribe las reglas
-		CSVWriter csvWriter = new CSVWriter(salidaCSV); 
-		csvWriter.addMatrix(reglas); 
+		CSVWriter csvWriter = new CSVWriter(salidaCSV);
+		csvWriter.addMatrix(reglas);
 		csvWriter.close();
 
 		Set<FortiRuleLight> sFrl = new HashSet<FortiRuleLight>();
 
 		for (FortiRuleLight reglasCreadas : reglas.getReglas()) {
 
-			boolean grupable = false;
+			int grupable = 0;
+			int actual = 0;
+			FortiRuleLight frlTMP = null;
 
 			for (FortiRuleLight frl : sFrl) {
 
 				grupable = frl.isGrupable(reglasCreadas);
 
-				if (grupable) {
+				// si aumentamos de categoria de agrupación, cambiamos el temporal
+				if (actual < grupable) {
 
-					frl.addLinea(reglasCreadas.getCeldaLocal().getLogs());
-					break;
+					actual = grupable;
+					frlTMP = frl;
+
+					// Si tenemos la máxima categoría, agrupamos y salimos
+					if (actual == frlTMP.MAX_VALUE_GROUP) {
+
+						frl.addLinea(reglasCreadas.getCeldaLocal().getLogs());
+
+						break;
+					}
+
 				}
 
 			}
 
-			if (!grupable)
+			// agrupación de una categoría no máxima
+			if (frlTMP != null) {
+
+				frlTMP.addLinea(reglasCreadas.getCeldaLocal().getLogs());
+
+			} else {
+
+				//No ha sido posible agrupar
 				sFrl.add(reglasCreadas);
+
+			}
 
 		}
 
