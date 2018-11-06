@@ -64,6 +64,8 @@ public class AuditedRulesLight {
 
 		// Me quedo solo con las reglas locales
 		sourcesV.addAll(Rule.getLocalOTVlan(this.getVlanSources())); // Vlan locales
+		sourcesV.addAll(Rule.getLocalGroup(this.getGroupSource())); // Vlan locales
+		destinyV.addAll(Rule.getLocalGroup(this.getGroupDestiny())); // Vlan locales
 		destinyV.addAll(Rule.getLocalOTVlan(this.getVlanDestiny())); // Vlan locales
 		
 		Set<String> s = new HashSet<String>();
@@ -104,7 +106,9 @@ public class AuditedRulesLight {
 
 		// Me quedo solo con las reglas locales
 		sourcesV.addAll(Rule.getLocalOTVlan(this.getVlanSources()));
+		sourcesV.addAll(Rule.getLocalGroup(this.getGroupSource()));
 		destinyV.addAll(Rule.getLocalITVlan(this.getVlanDestiny()));
+		destinyV.addAll(Rule.getLocalGroup(this.getGroupDestiny()));
 
 		Set<String> s = new HashSet<String>();
 		s.add("OTIT");
@@ -121,6 +125,8 @@ public class AuditedRulesLight {
 
 		// Me quedo solo con las reglas locales
 		sourcesV.addAll(Rule.getLocalITVlan(this.getVlanSources()));
+		sourcesV.addAll(Rule.getLocalGroup(this.getGroupSource()));
+		destinyV.addAll(Rule.getLocalGroup(this.getGroupDestiny()));
 		destinyV.addAll(Rule.getLocalOTVlan(this.getVlanDestiny()));
 
 		Set<String> s = new HashSet<String>();
@@ -142,6 +148,7 @@ public class AuditedRulesLight {
 		sourcesV.add(VlansLight.internet);
 
 		destinyV.addAll(Rule.getLocalOTVlan(this.getVlanDestiny()));
+		destinyV.addAll(Rule.getLocalGroup(this.getGroupDestiny()));
 		//destinyV.addAll(Rule.getLocalOTGroup(this.getGroupDestiny()));
 		
 		Set<String> s = new HashSet<String>();
@@ -163,6 +170,7 @@ public class AuditedRulesLight {
 		sourcesV.add(VlansLight.internet);
 		
 		destinyV.addAll(Rule.getLocalITVlan(this.getVlanDestiny()));
+		destinyV.addAll(Rule.getLocalGroup(this.getGroupDestiny()));
 		
 		Set<String> s = new HashSet<String>();
 		s.add("WANIT");
@@ -180,6 +188,7 @@ public class AuditedRulesLight {
 
 		// Me quedo solo con las reglas locales
 		sourcesV.addAll(Rule.getLocalITVlan(this.getVlanSources()));
+		sourcesV.addAll(Rule.getLocalGroup(this.getGroupSource()));
 		
 		destinyV.addAll(Rule.getExternalGroup(this.getGroupDestiny()));
 		destinyV.addAll(Rule.getExternalVlan(this.getVlanDestiny()));
