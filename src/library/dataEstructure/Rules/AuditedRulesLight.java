@@ -270,13 +270,21 @@ public class AuditedRulesLight {
 		// Relleno tabla
 		for (AuditedRuleLight adr : this.sAudit) {
 			if (direccion.contains(adr.getDirection())) {
+				
+				if(adr.getId() == 7) {
+					
+					System.out.println("SEVEN");
+					
+				}
 
 				// Crea una lista con las VLANes y grupos fuera de la planta
 				Set<VlanLight> sAuditTMPDestiny = new HashSet<VlanLight>();
 				sAuditTMPDestiny.addAll(adr.getDestinysVlan());
+				sAuditTMPDestiny.addAll(adr.getSourcesGroup());
 
 				Set<VlanLight> sAuditTMPSource = new HashSet<VlanLight>();
 				sAuditTMPSource.addAll(adr.getSourcesVlan());
+				sAuditTMPSource.addAll(adr.getDestinysGroup());
 				//sAuditTMPSource.addAll(Tools.getVlans(adr.getSourcesGroup(), sourcesV));
 
 				matrix = rellenaMatriz(sourcesV, destinyV, matrix, sAuditTMPSource, sAuditTMPDestiny, adr);
@@ -377,9 +385,13 @@ public class AuditedRulesLight {
 			Set<VlanLight> sAuditTMPSource, Set<VlanLight> sAuditTMPDestiny, AuditedRuleLight adr) {
 
 		String id = "" + adr.getId();
+		
+		
 		int s;
 		int d;
 		
+		
+		// En caso de ser servicios se una el nombre
 		if(adr.getAllServices().length() != 0) {
 			
 			id = adr.getServices().get(0);

@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.commons.csv.CSVRecord;
 
 import library.IO.Reader.CSVFortiObjetos;
-import library.IO.Reader.FilesFolder;
+
 import library.IO.Reader.FortiReaderCSV;
 import library.IO.Writer.CSVWriter;
 import library.dataEstructure.Logs.LogsLight;

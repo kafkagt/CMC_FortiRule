@@ -12,9 +12,9 @@ import library.dataEstructure.Matrix.VlanLight;
 public class Rule {
 
 	// Bilbao
-	static final private String[] planta = { "10.43", "N/A", "10.143" };
-	static final private String[] ot = { "10.143" };
-	static final private String[] it = { "10.43" };
+	static final private String[] planta = { "10.43.", "N/A", "10.143." };
+	static final private String[] ot = { "10.143." };
+	static final private String[] it = { "10.43." };
 	static final public String plantaActual = "BSBI";
 
 //	//Usánsolo

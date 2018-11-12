@@ -32,9 +32,6 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 			this.setSrcIP(row.get(position.getSrcIP()));
 			this.setService(row.get(position.getService()));
 			
-			if(this.getSrcIP().equals("10.143.6.20")) {
-				int a = 1;
-			}
 			
 
 			if (position.getDirection() != -1) {

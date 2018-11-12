@@ -32,7 +32,7 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.gateway = row.get(4);
 		// this.zone = row.get(0);
 		this.netmask = row.get(3);
-		this.directionPartial = row.get(5);
+		this.directionPartial = this.getPartialPlant(row.get(5));
 
 		this.setFabrica(this.network);
 
@@ -40,6 +40,19 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.cidr = GestionInformacion.getIPCidr(network, netmask);
 		this.setBroadcast();
 
+	}
+	
+	private String getPartialPlant(String  s) {
+		
+		if(Rule.isPlant(this)) {
+			return s;
+		}else {
+			
+			return "WAN";
+		}
+		
+		
+		
 	}
 
 	public VlanLight(String vlan) {
