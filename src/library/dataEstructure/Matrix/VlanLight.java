@@ -32,19 +32,19 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.gateway = row.get(4);
 		// this.zone = row.get(0);
 		this.netmask = row.get(3);
-		this.directionPartial = this.getPartialPlant(row.get(5));
+		
 
 		this.setFabrica(this.network);
 
 		// calculamos el CIDR en base a la subred
 		this.cidr = GestionInformacion.getIPCidr(network, netmask);
 		this.setBroadcast();
-
+		this.directionPartial = getPartialPlant(row.get(5));
 	}
 	
 	private String getPartialPlant(String  s) {
 		
-		if(Rule.isPlant(this)) {
+		if(!Rule.isWAN(this)) {
 			return s;
 		}else {
 			
