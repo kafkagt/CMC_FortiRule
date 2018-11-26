@@ -34,10 +34,10 @@ public class FortiReaderXLS {
 		}
 	}
 
-	public Sheet getSheet(int sheetNumber) {
+	public Sheet getSheet(int number) {
 
 		// eligiendo la hoja
-		this.sheet = workbook.getSheetAt(0);
+		this.sheet = workbook.getSheetAt(number);
 
 		return sheet;
 

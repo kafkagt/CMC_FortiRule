@@ -67,13 +67,18 @@ public class B_GeneraReglasLight {
 
 		Set<FortiRuleLight> sFrl = new HashSet<FortiRuleLight>();
 
+
 		for (FortiRuleLight reglasCreadas : reglas.getReglas()) {
 
 			int grupable = 0;
 			int actual = 0;
 			FortiRuleLight frlTMP = null;
+			
+
 
 			for (FortiRuleLight frl : sFrl) {
+				
+
 
 				grupable = frl.isGrupable(reglasCreadas);
 

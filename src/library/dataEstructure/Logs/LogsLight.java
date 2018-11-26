@@ -46,7 +46,7 @@ public class LogsLight {
 
 			} 
 			
-//			if(cuentaTotal == 10000) {
+//			if(cuentaTotal == 5000) {
 //				break;
 //			}
 

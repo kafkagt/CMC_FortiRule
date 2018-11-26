@@ -261,6 +261,48 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 		return res;
 	}
 
+	private Set<VlanLight> cleanSubContained(Set<VlanLight> listado) {
+
+		Set<VlanLight> setVlan = new HashSet<VlanLight>();
+
+		Boolean contenida = false;
+
+		// Iteramos sobre los elementos totales
+		for (VlanLight v : listado) {
+
+			contenida = false;
+			// Si no es un grupo lo agregamos directamente
+			if (v.isGroup()) {
+
+				// Iteramos sobre el grupo temporal
+				for (VlanLight tmp : setVlan) {
+
+					
+
+					// Si todas las IPs están contenidas en la Vlan obviamos el grupo
+					contenida = tmp.isAllContained(v.getGroup().getIps());
+
+					// Si es una IP contenida lo obviamos
+					if (contenida) {
+						contenida = true;
+						break;
+					}
+
+				}
+			}
+
+			// la añadimos si es una Vlan o no es un grupo plenamente contenido
+			if (!contenida) {
+
+				setVlan.add(v);
+			}
+
+		}
+
+		return setVlan;
+
+	}
+
 	public String[] toArray() {
 		String[] res = new String[8];
 
@@ -306,7 +348,7 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	public int isGrupable(FortiRuleLight fr) {
 
-		boolean res = Rule.directionGrupable(fr.getDirection(), this.getDirection());
+		boolean res = Rule.directionGrupableIguales(fr.getDirection(), this.getDirection());
 
 		if (!res) {
 
@@ -338,18 +380,18 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 		servicioAgrupable = serviciogrupo && servicesFull || serviciosNoGrupos;
 
-		//Si agrupamos el servicio lo llamamos tipo 1 
-		if(source && destiny && servicioAgrupable) {
-			
+		// Si agrupamos el servicio lo llamamos tipo 1
+		if (source && destiny && servicioAgrupable) {
+
 			return 1;
-			
-		//Si el servicio se mantiene lo llamamos tipo 2	
-		}else if ((source && servicesFull)) {
-			
+
+			// Si el servicio se mantiene lo llamamos tipo 2
+		} else if ((source && servicesFull)) {
+
 			return 2;
-			
-		}else if (destiny && servicesFull) {
-			
+
+		} else if (destiny && servicesFull) {
+
 			return 3;
 		}
 

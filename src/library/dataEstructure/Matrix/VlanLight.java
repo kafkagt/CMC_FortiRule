@@ -1,5 +1,7 @@
 package library.dataEstructure.Matrix;
 
+import java.util.Set;
+
 import org.apache.commons.csv.CSVRecord;
 
 import com.github.jgonian.ipmath.Ipv4;
@@ -32,7 +34,6 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.gateway = row.get(4);
 		// this.zone = row.get(0);
 		this.netmask = row.get(3);
-		
 
 		this.setFabrica(this.network);
 
@@ -41,18 +42,16 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.setBroadcast();
 		this.directionPartial = getPartialPlant(row.get(5));
 	}
-	
-	private String getPartialPlant(String  s) {
-		
-		if(!Rule.isWAN(this)) {
+
+	private String getPartialPlant(String s) {
+
+		if (!Rule.isWAN(this)) {
 			return s;
-		}else {
-			
+		} else {
+
 			return "WAN";
 		}
-		
-		
-		
+
 	}
 
 	public VlanLight(String vlan) {
@@ -108,7 +107,7 @@ public class VlanLight implements Comparable<VlanLight> {
 		} else {
 			this.directionPartial = "OT";
 		}
-		
+
 		// 4 Octetos
 		this.vlanName = tmp[0] + "." + tmp[1] + "." + tmp[2] + ".0";
 		this.cidr = tmp[0] + "." + tmp[1] + "." + tmp[2] + ".0/24";
@@ -340,6 +339,20 @@ public class VlanLight implements Comparable<VlanLight> {
 		}
 
 		return false;
+
+	}
+
+	public boolean isAllContained(Set<String> ips) {
+
+		for (String ip : ips) {
+
+			if (!this.isContained(ip)) {
+				return false;
+			}
+
+		}
+
+		return true;
 
 	}
 

@@ -147,9 +147,7 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 
 		if (s.length > 1 && !s[1].equals("*") && s[0].equals("udp")) {
 
-			Integer i = Integer.parseInt(s[1]);
-
-			if (i > 500) {
+			if (s[1].length() > 500) {
 
 				this.service = "udp/*";
 			}

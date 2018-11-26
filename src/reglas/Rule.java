@@ -40,7 +40,7 @@ public class Rule {
 			"169.254." // Automatic Private Internet Protocol Addressing
 	};
 
-public static boolean directionGrupable(String a, String b) {
+	public static boolean directionGrupable(String a, String b) {
 		
 		boolean res = false;
 
@@ -61,6 +61,11 @@ public static boolean directionGrupable(String a, String b) {
 			
 			return true;
 		}
+	}
+	public static boolean directionGrupableIguales(String a, String b) {
+		
+		return a.equals(b);
+
 	}
 
 

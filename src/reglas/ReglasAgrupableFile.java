@@ -51,7 +51,7 @@ public class ReglasAgrupableFile {
 
 	public boolean isGrupable(ReglasAgrupableFile raf) {
 		
-		boolean res = Rule.directionGrupable(this.getDirection(), raf.getDirection());
+		boolean res = Rule.directionGrupableIguales(this.getDirection(), raf.getDirection());
 
 		if (!res) {
 
