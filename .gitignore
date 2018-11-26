@@ -7,5 +7,6 @@
 *.xlsx
 *.xls
 /bin/*
-/output/*
+/src/output/*
+/src/output/*
 /bin/
