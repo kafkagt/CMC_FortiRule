@@ -6,4 +6,6 @@
 *.csv
 *.xlsx
 *.xls
+/bin/*
+/output/*
 /bin/
