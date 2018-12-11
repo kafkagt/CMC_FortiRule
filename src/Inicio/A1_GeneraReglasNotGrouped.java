@@ -55,7 +55,7 @@ public class A1_GeneraReglasNotGrouped {
 
 			LogsLight logs = new LogsLight(records, pl, vlans);
 
-			reglas.addLogs(logs);
+			reglas.addLogs2(logs);
 
 		}
 		

@@ -114,26 +114,27 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 			return este;
 		}
 
-		boolean grupo1 = este.endsWith("TOT") && otro.endsWith("TOT"); // X-OT
-		boolean grupo2 = este.endsWith("WAN") && otro.endsWith("WAN"); // X-WAN
-		boolean grupo4 = este.startsWith("WAN") && otro.startsWith("WAN"); // WAN-X
-
-		if (grupo1) {
-
-			return "XTOT";
-
-		}
-		if (grupo2) {
-
-			return "XWAN";
-
-		}
-		if (grupo4) {
-
-			return "WANX";
-
-		}
-
+//		boolean grupo1 = este.endsWith("TOT") && otro.endsWith("TOT"); // X-OT
+//		boolean grupo2 = este.endsWith("WAN") && otro.endsWith("WAN"); // X-WAN
+//		boolean grupo4 = este.startsWith("WAN") && otro.startsWith("WAN"); // WAN-X
+//
+//		if (grupo1) {
+//
+//			return "XTOT";
+//
+//		}
+//		if (grupo2) {
+//
+//			return "XWAN";
+//
+//		}
+//		if (grupo4) {
+//
+//			return "WANX";
+//
+//		}
+		System.out.println("THIS: " + this);
+		System.out.println("LOG: " + log);
 		throw new IllegalArgumentException("Mezclado de logs incorrecto: " + este + " - " + otro);
 
 	}
@@ -189,6 +190,22 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 	}
 
 	public Set<String> getAllServices() {
+		if(allServices.size() > 50) {
+			
+			Set<String> s = new HashSet<String>();
+			for(String cadena: allServices) {
+				
+				if(!cadena.contains("udp/")) {
+					
+					s.add(cadena);
+				}
+				
+			}
+			
+			s.add("udp/*");
+			return s;
+		}
+		
 		return allServices;
 	}
 
@@ -277,8 +294,6 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 				// Iteramos sobre el grupo temporal
 				for (VlanLight tmp : setVlan) {
 
-					
-
 					// Si todas las IPs están contenidas en la Vlan obviamos el grupo
 					contenida = tmp.isAllContained(v.getGroup().getIps());
 
@@ -348,53 +363,67 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	public int isGrupable(FortiRuleLight fr) {
 
-		boolean res = Rule.directionGrupableIguales(fr.getDirection(), this.getDirection());
+		// boolean res = Rule.directionGrupableIguales(fr.getDirection(),
+		// this.getDirection());
 
-		if (!res) {
+		// Diferente dirección
+		if (!fr.getDirection().equals(this.getDirection())) {
 
 			return 0;
 
 		}
 
+		String services = null;
+		boolean servicesFull = false;
+		
+		services = fr.getCeldaLocal().getServices();
+		servicesFull = this.getCeldaLocal().getServices().equals(services);
+
 		// Solo Vlanes source
 		Set<VlanLight> sourcesWOVlan = fr.celdaLocal.getVlanAndGroupsSource();
+		Set<VlanLight> sourcesWOVlanThis = this.celdaLocal.getVlanAndGroupsSource();
+		boolean source = false;
 
-		// Solo vlanes destination
-		Set<VlanLight> destinysWOVlan = fr.celdaLocal.getVlanAndGroupsDestination();
+		source = this.celdaLocal.getVlanAndGroupsSource().equals(sourcesWOVlan);
 
-		boolean destiny = this.celdaLocal.getVlanAndGroupsDestination().equals(destinysWOVlan);
-
-		String services = fr.getCeldaLocal().getServices();
-		// System.out.println(destinysWOVlan);
-
-		boolean source = this.celdaLocal.getVlanAndGroupsSource().equals(sourcesWOVlan);
-
-		boolean servicesFull = this.getCeldaLocal().getServices().equals(services);
-
-		boolean serviciogrupo = this.getAllServices().size() > 0 && fr.getAllServices().size() > 0;
-		boolean serviciosNoGrupos = this.getAllServices().size() == 0 && fr.getAllServices().size() == 0;
-
-		boolean servicioAgrupable = false;
-
-		// Verifica que el servicio es agrupable
-
-		servicioAgrupable = serviciogrupo && servicesFull || serviciosNoGrupos;
-
-		// Si agrupamos el servicio lo llamamos tipo 1
-		if (source && destiny && servicioAgrupable) {
-
-			return 1;
-
-			// Si el servicio se mantiene lo llamamos tipo 2
-		} else if ((source && servicesFull)) {
+		// Es agrupable por el destino
+		if ((source && servicesFull)) {
 
 			return 2;
 
-		} else if (destiny && servicesFull) {
+		}
+
+		// Solo vlanes destination
+		Set<VlanLight> destinysWOVlan = fr.celdaLocal.getVlanAndGroupsDestination();
+		Set<VlanLight> destinysWOVlanThis = this.celdaLocal.getVlanAndGroupsDestination();
+		boolean destiny = false;
+
+		destiny = destinysWOVlanThis.equals(destinysWOVlan);
+
+		// Agrupable por el origen
+		if (destiny && servicesFull) {
 
 			return 3;
 		}
 
+		// Si agrupamos el servicio lo llamamos tipo 1
+		if (source && destiny) {
+
+			int sizeThis = this.getAllServices().size();
+			int sizeFr = fr.getAllServices().size();
+
+			boolean serviciogrupo = sizeThis > 0 && sizeFr > 0;
+			boolean serviciosNoGrupos = sizeThis == 0 && sizeFr == 0;
+
+			// Verifica que el servicio es agrupable
+			boolean servicioAgrupable = serviciogrupo && servicesFull || serviciosNoGrupos;
+
+			if (servicioAgrupable) {
+
+				return 1;
+			}
+
+		}
 		return 0;
 
 	}
@@ -439,6 +468,10 @@ public class FortiRuleLight implements Comparable<FortiRuleLight>, Comparator<Fo
 
 	public void setCeldaLocal(CeldaLight celdaLocal) {
 		this.celdaLocal = celdaLocal;
+	}
+	
+	public String getKey() {
+		return this.celdaLocal.getSources().toString()+this.getServicios()+this.getDirection();
 	}
 
 }

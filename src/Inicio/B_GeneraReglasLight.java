@@ -41,7 +41,7 @@ public class B_GeneraReglasLight {
 		VlansLight vlans = new VlansLight(recordsVlan);
 		vlans.addGrupos(recordsObj);
 
-		ReglasLight reglas = new ReglasLight();
+		ReglasLight reglasSinAgrupar = new ReglasLight();
 
 		FortiReaderCSV frc = new FortiReaderCSV(pathFolder, ';');
 		Iterable<CSVRecord> records = frc.getSheet();
@@ -56,66 +56,86 @@ public class B_GeneraReglasLight {
 		pl.setDirection(6);
 		pl.setAllServices(7);
 
+		// Carga los registros del fichero con los metadatos
 		LogsLight logs = new LogsLight(records, pl, vlans);
 
-		reglas.addLogsGrouped(logs);
+		reglasSinAgrupar.addLogs(logs);
 
 		// Escribe las reglas
 		CSVWriter csvWriter = new CSVWriter(salidaCSV);
-		csvWriter.addMatrix(reglas);
+		csvWriter.addMatrix(reglasSinAgrupar);
 		csvWriter.close();
 
-		Set<FortiRuleLight> sFrl = new HashSet<FortiRuleLight>();
+		// Nuevo conjunto de fortiRules
+		Set<FortiRuleLight> reglasAgrupadas = new HashSet<FortiRuleLight>();
 
+		int count = 0;
+		long l = System.currentTimeMillis();
 
-		for (FortiRuleLight reglasCreadas : reglas.getReglas()) {
+		long p = System.currentTimeMillis();
+		long p1 = 0L;
+		long p2 = 0L;
+		long p3 = 0L;
+		int cuenta = 0;
+		// Iteramos sobre las reglas creadas
+		for (FortiRuleLight reglaCreada : reglasSinAgrupar) {
 
 			int grupable = 0;
 			int actual = 0;
 			FortiRuleLight frlTMP = null;
 			
 
+			if (count++ % 1000 == 0) {
 
-			for (FortiRuleLight frl : sFrl) {
-				
+				System.out.println("Lineas: " + count + " tiempo: " + (System.currentTimeMillis() - l) + " Vueltas: " + cuenta + " reglasActuales: " + reglasAgrupadas.size());
+				l = System.currentTimeMillis();
+				cuenta = 0;
 
+			}
 
-				grupable = frl.isGrupable(reglasCreadas);
+			for (FortiRuleLight reglaAgrupada : reglasAgrupadas) {
+
+				cuenta ++;
+				grupable = reglaAgrupada.isGrupable(reglaCreada);
 
 				// si aumentamos de categoria de agrupación, cambiamos el temporal
 				if (actual < grupable) {
 
 					actual = grupable;
-					frlTMP = frl;
+					frlTMP = reglaAgrupada;
 
 					// Si tenemos la máxima categoría, agrupamos y salimos
 					if (actual == frlTMP.MAX_VALUE_GROUP) {
 
-						frl.addLinea(reglasCreadas.getCeldaLocal().getLogs());
-
+						frlTMP.addLinea(reglaCreada.getCeldaLocal().getLogs());
+						
 						break;
 					}
 
 				}
+				
+
 
 			}
 
-			// agrupación de una categoría no máxima
-			if (frlTMP != null) {
+			// Se ha encontrado una puntuación no máxima
+			if (frlTMP != null && actual != frlTMP.MAX_VALUE_GROUP) {
+				// Agrupar 2 reglas
+				frlTMP.addLinea(reglaCreada.getCeldaLocal().getLogs());
 
-				frlTMP.addLinea(reglasCreadas.getCeldaLocal().getLogs());
+			} 
 
-			} else {
+			if(frlTMP == null){
 
-				//No ha sido posible agrupar
-				sFrl.add(reglasCreadas);
+				// No ha sido posible agrupar + Nueva regla
+				reglasAgrupadas.add(reglaCreada);
 
 			}
-
+ 
 		}
 
 		ReglasLight reglasClean = new ReglasLight();
-		reglasClean.setSetReglas(sFrl);
+		reglasClean.setSetReglas(reglasAgrupadas);
 
 		csvWriter = new CSVWriter(salidaCSVClean);
 		csvWriter.addMatrix(reglasClean);

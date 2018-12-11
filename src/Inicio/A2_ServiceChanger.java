@@ -41,12 +41,12 @@ public class A2_ServiceChanger {
 			String s = Rule.limpia(csv.get(5));
 			
 			line[0] = csv.get(0); //ID
-			line[1] = Rule.limpia(csv.get(1)); //INT_Source	
-			line[2] = Rule.limpia(csv.get(2)); //Source	
-			line[3] = Rule.limpia(csv.get(3)); //Destination
-			line[4] = Rule.limpia(csv.get(4)); //INT_Destination
-			line[5] = gsS.getNameGroup(s, line[1], line[4]); // Servicios - Grupos
-			line[6] = Rule.limpia(csv.get(6)); //Direction
+			line[1] = Rule.limpia(csv.get(1)).replace(" ", ""); //INT_Source	
+			line[2] = Rule.limpia(csv.get(2)).replace(" ", ""); //Source	
+			line[3] = Rule.limpia(csv.get(3)).replace(" ", ""); //Destination
+			line[4] = Rule.limpia(csv.get(4)).replace(" ", ""); //INT_Destination
+			line[5] = gsS.getNameGroup(s, line[1], line[4]).replace(" ", ""); // Servicios - Grupos
+			line[6] = Rule.limpia(csv.get(6)).replace(" ", ""); //Direction
 			
 			
 			//Si es un grupo pon los puertos desglosados

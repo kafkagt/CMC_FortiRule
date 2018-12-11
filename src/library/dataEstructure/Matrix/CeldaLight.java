@@ -9,28 +9,41 @@ public class CeldaLight {
 
 	private Set<LineaLogLight> celda;
 	private String direction;
+	
+	Set<VlanLight> sourcesVlan;
+	Set<VlanLight> destinationVlan;
 
 	public CeldaLight() {
 
 		celda = new HashSet<LineaLogLight>();
+		sourcesVlan = new HashSet<VlanLight>();
+		destinationVlan  = new HashSet<VlanLight>();
 	}
 
 	public CeldaLight(LineaLogLight log) {
-
+		
+		sourcesVlan = new HashSet<VlanLight>();
+		destinationVlan  = new HashSet<VlanLight>();
+		
+		
 		celda = new HashSet<LineaLogLight>();
 		celda.add(log);
 		this.direction = log.getDirection();
+		
+		sourcesVlan.add(log.getSrcVlan());
+		destinationVlan.add(log.getDstVlan());
+		
+		
+		
 	}
 
 	public boolean add(LineaLogLight log) {
+		
+		sourcesVlan.add(log.getSrcVlan());
+		destinationVlan.add(log.getDstVlan());
 
-		if (!celda.contains(log)) {
-			return celda.add(log);
-		}
+		return celda.add(log);
 
-		// celda.add(log);
-
-		return false;
 	}
 
 	public String toString() {
@@ -100,31 +113,35 @@ public class CeldaLight {
 
 	public Set<VlanLight> getSources() {
 
-		Set<LineaLogLight> setL = this.getLogs();
-		Set<VlanLight> setV = new HashSet<VlanLight>();
-
-		for (LineaLogLight l : setL) {
-
-			setV.add(l.getSrcVlan());
-
-		}
-
-		return setV;
+//		Set<LineaLogLight> setL = this.getLogs();
+//		Set<VlanLight> setV = new HashSet<VlanLight>();
+//
+//		for (LineaLogLight l : setL) {
+//
+//			setV.add(l.getSrcVlan());
+//
+//		}
+//
+//		return setV;
+		
+		return this.sourcesVlan;
 
 	}
 
 	public Set<VlanLight> getDestinys() {
 
-		Set<LineaLogLight> setL = this.getLogs();
-		Set<VlanLight> setV = new HashSet<VlanLight>();
-
-		for (LineaLogLight l : setL) {
-
-			setV.add(l.getDstVlan());
-
-		}
-
-		return setV;
+//		Set<LineaLogLight> setL = this.getLogs();
+//		Set<VlanLight> setV = new HashSet<VlanLight>();
+//
+//		for (LineaLogLight l : setL) {
+//
+//			setV.add(l.getDstVlan());
+//
+//		}
+//
+//		return setV;
+		
+		return this.destinationVlan;
 
 	}
 
@@ -204,36 +221,13 @@ public class CeldaLight {
 
 	public Set<VlanLight> getVlanAndGroupsSource() {
 
-		Set<LineaLogLight> setL = this.getLogs();
-		Set<VlanLight> setV = new HashSet<VlanLight>();
-		VlanLight v;
-
-		for (LineaLogLight l : setL) {
-
-			v = l.getSrcVlan();
-
-			setV.add(v);
-
-		}
-
-		return setV;
+		return this.sourcesVlan;
 
 	}
+
 	public Set<VlanLight> getVlanAndGroupsDestination() {
 
-		Set<LineaLogLight> setL = this.getLogs();
-		Set<VlanLight> setV = new HashSet<VlanLight>();
-		VlanLight v;
-
-		for (LineaLogLight l : setL) {
-
-			v = l.getDstVlan();
-
-			setV.add(v);
-
-		}
-
-		return setV;
+		return this.destinationVlan;
 
 	}
 

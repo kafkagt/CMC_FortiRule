@@ -11,6 +11,7 @@ public class GrupoIPsLight {
 	String name = "";
 	Set<String> ips;
 	Set<String> services;
+	int hashCode ;
 
 	public GrupoIPsLight(CSVRecord row) {
 
@@ -18,6 +19,7 @@ public class GrupoIPsLight {
 		this.ips = new HashSet<String>();
 		this.services = new HashSet<String>();
 		this.addIP(row.get(1));
+		this.hashCode = this.name.hashCode();
 
 	}
 	public GrupoIPsLight(String ip) {
@@ -35,6 +37,7 @@ public class GrupoIPsLight {
 			
 			throw new IllegalArgumentException("Error, esto no es una IP: " + ip);
 		}
+		this.hashCode = this.name.hashCode();
 		
 
 	}
@@ -78,31 +81,39 @@ public class GrupoIPsLight {
 	@Override
 	public int hashCode() {
 		
-		return this.getName().hashCode();
+		return this.hashCode;
 	}
+	
+//	@Override
+//    public boolean equals(Object obj) {
+//		
+//		boolean res = false;
+//		
+//		if(obj instanceof GrupoIPsLight) {
+//			
+//			GrupoIPsLight g = (GrupoIPsLight) obj;
+//			
+//			
+//			res = this.name.equals(g.getName());
+//			
+//			//if(res) {
+//				
+//				//System.out.println("Grupo agrupado: " + this.name + " este: " + g.getName());
+//			//}
+//			
+//			return res;
+//			
+//		}
+//		
+//		return false;
+//		
+//		
+//		
+//	}
 	
 	@Override
     public boolean equals(Object obj) {
-		
-		boolean res = false;
-		
-		if(obj instanceof GrupoIPsLight) {
-			
-			GrupoIPsLight g = (GrupoIPsLight) obj;
-			
-			
-			res = this.name.equals(g.getName());
-			
-			//if(res) {
-				
-				//System.out.println("Grupo agrupado: " + this.name + " este: " + g.getName());
-			//}
-			
-			return res;
-			
-		}
-		
-		return false;
+		return obj.hashCode() == this.hashCode();
 		
 		
 		

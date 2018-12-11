@@ -7,23 +7,25 @@ public class Ejecutable {
 	public static void main(String[] args) {
 
 		try {
-			if (args == null || args.length == 0 || args[0] == "") {
-
-				A1_GeneraReglasNotGrouped.main(args);
-				A2_ServiceChanger.main(args);
-				B_GeneraReglasLight.main(args);
-				C_GeneraReglasGruperLight.main(args);
-				D_GeneraMatrizLight.main(args);
-
-			} else {
-				A2_ServiceChanger.main(args);
-				B_GeneraReglasLight.main(args);
-				C_GeneraReglasGruperLight.main(args);
-				D_GeneraMatrizLight.main(args);
-
+			if (args == null || args.length == 0 || args[0] == "" || args[0].compareToIgnoreCase("Full") == 0) {
+	
+				System.out.println("--------------------SUSTITUYENDO GRUPOS(\"--------------------");
+				A1_GeneraReglasNotGrouped.main(args);	
 			}
+
+			System.out.println("(\"--------------------SUSTITUYENDO SERVICIOS(\"--------------------");
+			A2_ServiceChanger.main(args);
+			
+			System.out.println("(\"--------------------AGRUPACIÓN LVL-1(\"--------------------");
+			B_GeneraReglasLight.main(args);
+			
+			System.out.println("(\"--------------------AGRUPACIÓN LVL-2(\"--------------------");
+			C_GeneraReglasGruperLight.main(args);
+			
+			System.out.println("(\"--------------------GENERANDO MATRICES(\"--------------------");
+			D_GeneraMatrizLight.main(args);
+			
 		} catch (IOException e) {
-			System.out.println("Error en la lectura de ficheros de entrada");
 			e.printStackTrace();
 		}
 

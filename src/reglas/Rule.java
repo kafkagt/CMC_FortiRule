@@ -17,7 +17,7 @@ public class Rule {
 	static final private String[] it = { "10.43." };
 	static final public String plantaActual = "BSBI";
 
-//	//Usánsolo
+////	//Usánsolo
 //	static final private String[] planta = { "10.54", "N/A" };
 //	static final private String[] ot = { "10.54" };
 //	static final private String[] it = { "10.54" };

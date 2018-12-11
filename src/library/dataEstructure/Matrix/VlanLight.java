@@ -25,6 +25,7 @@ public class VlanLight implements Comparable<VlanLight> {
 	private String fabrica = "";
 	private boolean isGroup = false;
 	private String directionPartial = "WAN";
+	private int hashCode;
 
 	public VlanLight(CSVRecord row) {
 
@@ -41,6 +42,8 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.cidr = GestionInformacion.getIPCidr(network, netmask);
 		this.setBroadcast();
 		this.directionPartial = getPartialPlant(row.get(5));
+		
+		this.setHashCode();
 	}
 
 	private String getPartialPlant(String s) {
@@ -89,6 +92,7 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.fabrica = this.getVlanName();
 		this.isGroup = true; // A ver que pasa...
 		this.group = new GrupoIPsLight(vlan);
+		this.setHashCode();
 
 	}
 
@@ -125,6 +129,7 @@ public class VlanLight implements Comparable<VlanLight> {
 		// calculamos el CIDR en base a la subred
 
 		this.setBroadcast();
+		this.setHashCode();
 
 	}
 
@@ -141,6 +146,7 @@ public class VlanLight implements Comparable<VlanLight> {
 		this.cidr = g.getName();
 		this.fabrica = this.getVlanName();
 		this.isGroup = true;
+		this.setHashCode();
 
 	}
 
@@ -231,15 +237,7 @@ public class VlanLight implements Comparable<VlanLight> {
 
 		if (this.isGroup == true && v.isGroup == this.isGroup) {
 
-			if (this.group.equals(v.group)) {
-
-				return true;
-
-			} else {
-
-				return false;
-
-			}
+			return this.group.equals(v.group);
 
 		} else {
 
@@ -252,7 +250,7 @@ public class VlanLight implements Comparable<VlanLight> {
 	@Override
 	public int hashCode() {
 
-		return this.getCidr().hashCode();
+		return this.hashCode;
 
 	}
 
@@ -382,6 +380,10 @@ public class VlanLight implements Comparable<VlanLight> {
 			throw new IllegalArgumentException("Esto no es un grupo: " + this.getCidr());
 
 		return group;
+	}
+	
+	private void setHashCode() {
+		this.hashCode = this.cidr.hashCode();
 	}
 
 }

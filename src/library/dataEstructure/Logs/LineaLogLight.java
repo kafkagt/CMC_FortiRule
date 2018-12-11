@@ -32,6 +32,10 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 			this.setSrcIP(row.get(position.getSrcIP()));
 			this.setService(row.get(position.getService()));
 			
+//			if(this.dstIP.equals("10.94.217.31")) {
+//				System.out.println("Desaparecido");
+//				
+//			}
 			
 
 			if (position.getDirection() != -1) {
@@ -215,7 +219,7 @@ public class LineaLogLight implements Comparable<LineaLogLight> {
 //		res = src * dst * port;
 		// System.out.println(this.srcIP+" " +this.dstIP+" " +this.service + " " +
 		// (this.srcIP+this.dstIP+this.service).hashCode() );
-		return (this.srcIP + this.dstIP + this.service + this.allServices).hashCode();
+		return (this.srcIP + this.dstIP + this.allServices + this.service).hashCode();
 
 //		return res.intValue();
 
