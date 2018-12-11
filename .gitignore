@@ -7,3 +7,26 @@
 *.xlsx
 *.xls
 /bin/
+src/output/BSBI/Reglas/ITOT/MATRIX_IT-OT.xlsx
+src/output/BSBI/Reglas/ITWAN/MATRIX_IT-WAN.xlsx
+src/output/BSBI/Reglas/OTIT/MATRIX_OT-IT.xlsx
+src/output/BSBI/Reglas/OTOT/MATRIX_OT-OT.xlsx
+src/output/BSBI/Reglas/WANIT/MATRIX_WAN-IT.xlsx
+src/output/BSBI/Reglas/WANOT/MATRIX_WAN-OT.xlsx
+src/output/BSBI/Reglas/ITOT/Rules_IT-OT.xlsx
+src/output/BSBI/Reglas/ITWAN/Rules_IT-WAN.xlsx
+src/output/BSBI/Reglas/OTIT/Rules_OT-IT.xlsx
+src/output/BSBI/Reglas/OTOT/Rules_OT-OT.xlsx
+src/output/BSBI/Reglas/WANIT/Rules_WAN-IT.xlsx
+src/output/BSBI/Reglas/WANOT/Rules_WAN-OT.xlsx
+bin/output/src/bseu.css
+bin/output/src/bseu.js
+bin/output/src/jquery-3.3.1.min.js
+src/output/BSBI/Reglas/OTWAN/MATRIX_OT-WAN.xlsx
+src/output/BSBI/Reglas/OTWAN/MATRIX_OT-WAN_v2.xlsx
+src/output/BSBI/Reglas/Rules-OBJ-CLEAN-Grouped_C.xlsx
+src/output/BSBI/Reglas/OTWAN/Rules_OT-WAN.xlsx
+Objetos - FULL.bat
+RulesMaker_V0.9.jar
+RulesMaker_V0.10.jar
+Services - Light.bat
